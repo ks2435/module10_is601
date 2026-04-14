@@ -36,13 +36,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run unit tests
-        run: pytest tests/unit
+        - name: Run unit tests
+        run: |
+          pip install -r requirements.txt
+          pytest tests/unit
 
       - name: Run integration tests
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/fastapi_db
-        run: pytest tests/integration
+        run: |
+          pip install -r requirements.txt
+          pytest tests/integration
 
   deploy:
     needs: test
