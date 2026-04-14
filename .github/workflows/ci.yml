@@ -36,22 +36,18 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-        - name: Run unit tests
-        run: |
-          pip install -r requirements.txt
-          pytest tests/unit
+      - name: Run unit tests
+        run: pytest tests/unit
 
       - name: Run integration tests
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/fastapi_db
-        run: |
-          pip install -r requirements.txt
-          pytest tests/integration
+        run: pytest tests/integration
 
   deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
 
     steps:
       - uses: actions/checkout@v3
