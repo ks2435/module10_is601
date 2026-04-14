@@ -1,9 +1,16 @@
-from passlib.context import CryptContext
+from pydantic import BaseModel, EmailStr
+from datetime import datetime
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+class UserCreate(BaseModel):
+    username: str
+    email: EmailStr
+    password: str
 
-def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+class UserRead(BaseModel):
+    id: int
+    username: str
+    email: str
+    created_at: datetime
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    class Config:
+        from_attributes = True
